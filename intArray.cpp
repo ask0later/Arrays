@@ -7,18 +7,18 @@ struct MATRIX
     size_t size_y, size_x;
 };
 
-void EnterMatrix(int* ptr, size_t* selectY, size_t* selectX);
+void EnterMatrix(int** ptr, size_t* selectY, size_t* selectX);
 void PrintData(size_t size_y, size_t size_x, int* array);
 void ResultProduct(MATRIX matrix1, MATRIX matrix2);
-int SelectionProduct(MATRIX matrix1, MATRIX matrix2);
+//int SelectionProduct(MATRIX matrix1, MATRIX matrix2);
 
 
 int main()
 {
     MATRIX matrix1 = {.data = 0, .size_y = 0, .size_x = 0};
     MATRIX matrix2 = {.data = 0, .size_y = 0, .size_x = 0};
-    EnterMatrix(matrix1.data, &matrix1.size_y, &matrix1.size_x);
-    EnterMatrix(matrix2.data, &matrix2.size_y, &matrix2.size_x);
+    EnterMatrix(&matrix1.data, &matrix1.size_y, &matrix1.size_x);
+    EnterMatrix(&matrix2.data, &matrix2.size_y, &matrix2.size_x);
 
     PrintData(matrix1.size_y, matrix1.size_x, matrix1.data);
     PrintData(matrix2.size_y, matrix2.size_x, matrix2.data);
@@ -35,7 +35,7 @@ void PrintData(size_t size_y, size_t size_x, int* array)
         printf("\n");
         for (size_t j = 0; j < size_x; j++)
         {
-            printf("a[%d, %d] = ", i, j);
+            printf("matrix[%d, %d] = ", i, j);
                                     // size_x
             printf("%4d  ", *(array + size_x * i + j));
         }
@@ -44,7 +44,7 @@ void PrintData(size_t size_y, size_t size_x, int* array)
 }
 
 
-
+/*
 int SelectionProduct(MATRIX matrix1, MATRIX matrix2)
 {
     if (matrix1.size_y == matrix2.size_x)
@@ -63,7 +63,7 @@ int SelectionProduct(MATRIX matrix1, MATRIX matrix2)
         return 0;
     }
 }
-
+*/
 void ResultProduct(MATRIX matrix1, MATRIX matrix2)
 {
     MATRIX matrix3 = {.data = 0, .size_y = matrix1.size_y, .size_x = matrix2.size_x};
@@ -88,14 +88,14 @@ void ResultProduct(MATRIX matrix1, MATRIX matrix2)
     PrintData(matrix3.size_y, matrix3.size_x, matrix3.data);
 }
 
-void EnterMatrix(int* ptr, size_t* selectY, size_t* selectX)
+void EnterMatrix(int** ptr, size_t* selectY, size_t* selectX)
 {
     printf("Enter rows and cols of matrix by rotation:\n");
     scanf("%d %d", selectY, selectX);
     printf("enter ech number of matrix:\n");
-    ptr = (int*)calloc((*selectY) * (*selectX), sizeof(int));
+    *ptr = (int*)calloc((*selectY) * (*selectX), sizeof(int));
     for (size_t i = 0; i < (*selectY) * (*selectX); i++)
     {
-        scanf("%d",ptr + i);
+        scanf("%d",*ptr + i);
     }
 }
