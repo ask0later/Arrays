@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <cstdlib>
+
+
+void PrintData(char* text);
+
+int main(int argc, char* argv[])
+{
+    if (argc == 2)
+    {
+        char* text =(char*) calloc(1024, sizeof(char));
+        char ch = NULL;
+        FILE* fp = fopen("text.txt","r");
+        for (size_t i = 0; i < 1024; i++)
+        {
+            ch = fgetc(fp);
+            *(text + i) = ch;
+        }
+        PrintData(text);
+    }
+}
+void PrintData(char* text)
+{
+    printf("%s",text);
+}
