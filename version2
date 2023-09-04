@@ -1,0 +1,47 @@
+#include <stdio.h>
+const size_t nline = 20;
+const size_t string = 256;
+
+void PrintData(char* text1);
+
+
+int main(int argc, char* argv[])
+{
+    if (argc == 2)
+    {
+        char text1[nline][string] = {};
+        FILE* fp = fopen ("argv[1]", "r");
+        int i = 0;
+        while (i < nline)
+        {
+            char ch;
+            int j = 0;
+            ch = fgetc(fp);
+            while (ch != '\n')
+                {
+                text1[i][j] = ch;
+                ch = fgetc(fp);
+                j++;
+                }
+            i++;
+            text1[i][j] = '\n';
+        }
+        PrintData((char*)text1);
+    }
+    else
+    {
+    printf("HAHAHAHA");
+    }
+}
+
+void PrintData(char* text1)
+{
+    for (size_t i = 0; i < nline; i++)
+    {
+        for (size_t j = 0; j < string; j++)
+        {
+            printf("%s ", text1);
+        }
+        printf("\n");
+    }
+}
