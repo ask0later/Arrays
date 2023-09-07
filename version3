@@ -2,38 +2,36 @@
 #include <cstdlib>
 #include <cstring>
 
-const int nline = 20;
-const int string = 1024;
+const size_t MAX = 512;
+const size_t SIZE = 85;
 
-
-void PrintData(char* text);
+void PrintData(char* text[]);
 
 int main(int argc, char* argv[])
 {
-    if (argc == 2)
+    char buf [MAX] = {};
+    printf("pointer buf : %p\n", buf);
+    char* text[SIZE] = {};
+    FILE* fp = fopen(argv[1], "r");
+
+    size_t i = 0;
+
+    while (fgets (buf, MAX, fp) != NULL)
     {
-        char* text[nline] = {};
-        FILE* fp = fopen("text.txt","r");
-        char buf[string] = {};
-        char* ptr = NULL;
-        for (size_t i = 0; i < (size_t)nline; i++)
-        {
-            fgets(buf, string, fp);
-            ptr = (char*)calloc(strlen(buf) + 1, sizeof(char));
-            strncpy(ptr, buf, string);
-            text[i] = ptr;
-        }
-        PrintData((char*)text);
+        size_t sizeCalloc = strlen(buf);
+        text[i] = (char*)calloc(sizeCalloc, sizeof(char));
+        strncpy(text[i], buf, SIZE);
+        i++;
     }
-    else
-    {
-        printf("HAHHAH");
-    }
+    PrintData(text);
 }
-void PrintData(char* text)
+void PrintData(char** text)
 {
-    for (size_t i = 0; i < (size_t)string; i++)
+    for (size_t i = 0; i < MAX; i++)
     {
-        printf("%s", text[i]);
+        if (*(text+i) != NULL)
+        {
+            printf("%s", *(text + i));
+        }
     }
 }
