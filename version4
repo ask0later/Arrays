@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
+
+const size_t MAX = 512;
+const size_t PTR = 85;
+
+void PrintData(char* text[]);
+
+int main(int argc, char* argv[])
+{
+    char buf [MAX] = {};
+    char* text[PTR] = {};
+    FILE* fp = fopen(argv[1], "r");
+    for (size_t i = 0; i < PTR; i++)
+    {
+        fgets (buf, MAX, fp);
+        text[i] = (char*)calloc(PTR, sizeof(char));
+        strncpy(text[i], buf, PTR);
+    }
+    PrintData(text);
+}
+void PrintData(char** text)
+{
+    for (size_t i = 0; i < MAX; i++)
+    {
+        printf("%s", *(text + i));
+    }
+
+}
