@@ -4,29 +4,30 @@ const size_t string = 256;
 
 void PrintData(char* text1);
 
-
 int main(int argc, char* argv[])
 {
     if (argc == 2)
     {
         char text1[nline][string] = {};
-        FILE* fp = fopen ("argv[1]", "r");
-        int i = 0;
-        while (i < nline)
+        FILE* fp = fopen (argv[1], "r");
+        int i = 0, j = 0;
+        char ch = NULL;
+        for (i = 0; i < nline; i++)
         {
-            char ch;
-            int j = 0;
-            ch = fgetc(fp);
-            while (ch != '\n')
+            for (j = 0; j < string - 1; j++)
+            {
+                char c = '\0';
+                if ((c = getc(fp)) == EOF)
                 {
-                text1[i][j] = ch;
-                ch = fgetc(fp);
-                j++;
+                //////////////
                 }
-            i++;
+                text1[i][j] = c;
+            }
             text1[i][j] = '\n';
+            text1[i][j + 1] = '\0';
         }
         PrintData((char*)text1);
+        fclose(fp);
     }
     else
     {
@@ -40,8 +41,9 @@ void PrintData(char* text1)
     {
         for (size_t j = 0; j < string; j++)
         {
-            printf("%s ", text1);
+            if (*(text1 + i * string + j) == '\0')
+                break;
+            printf("%c", *(text1 + i * string + j));
         }
-        printf("\n");
     }
 }
