@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+
+const size_t sizeChar = 64;
+
+ssize_t GetLine(char **st, size_t *n, FILE *fp);
+void PrintArray(char*st, size_t n);
+
+int main(int argc, char* argv[])
+{
+    if (argc = 2)
+    {
+        FILE *fp = fopen(argv[1], "r");
+        size_t n = 0;
+        char* st = NULL;
+        GetLine(&st, &n, fp);
+        PrintArray(st, n);
+    }
+}
+
+*ssize_t GetLine(char **st, size_t *n, FILE *fp)
+{
+    assert(fp);
+
+    *st = (char*)calloc(sizePointer, sizeof(char));
+    char ch = NULL;
+    size_t i = 0;
+    size_t numRealloc = 1;
+
+    while ((ch = fgetc(fp)) != EOF)
+    {
+        *(*st + *n) = ch;
+        (*n)++;
+
+        if (i == sizePointer)
+        {
+            numRealloc+=;
+            *st = (char*)realloc(*st, numRealloc * sizePointer);
+        }
+    }
+    if (*n < sizePointer)
+    {
+        *st = (char*)realloc(*st, *n);
+    }
+}
+
+void PrintArray(char*st, size_t n)
+{
+    printf("String:\n%s\nCount of Char", st, n);
+}
