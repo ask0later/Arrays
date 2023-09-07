@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
+
+const size_t sizeChar = 64;
+const size_t size = 20;
+const size_t MAX = 500;
+
+void PrintData(char** text, size_t nLine);
+ssize_t* GetLine(char **buf, size_t *n, FILE *fp);
+
+int main(int argc, char* argv[])
+{
+    char* buf = {};
+    char** text = (char**)calloc(size, sizeof(char*));
+    FILE* fp = fopen(argv[1], "r");
+    size_t nLine = 0;
+    size_t numRealloc = 1;
+    size_t n = 0;
+
+    while (GetLine(&buf, &n, fp) != NULL)
+    {
+        printf("Count of char %d line = %d\n", nLine + 1, n);
+        *(text + nLine) = (char*)calloc(n, sizeof(char));
+        strncpy(*(text + nLine), buf, MAX);
+        nLine++;
+
+        if (n == size)
+        {
+            numRealloc = numRealloc + 1;
+            text = (char**)realloc(text, numRealloc * size);
+        }
+    }
+    PrintData((char* *)text, nLine);
+}
+void PrintData(char** text, size_t nLine)
+{
+    for (size_t k = 0; k < nLine; k++)
+    {
+        if (*(text + k) != NULL)
+        {
+            printf("%s", *(text + k));
+        }
+    }
+}
+ssize_t* GetLine(char **buf, size_t *n, FILE *fp)
+{
+    if (fp == NULL)
+        return NULL;
+
+    *buf = (char*)calloc(sizeChar, sizeof(char));
+    char ch = NULL;
+    size_t i = 0;
+    size_t numRealloc = 1;
+
+    while ((ch = fgetc(fp)) != EOF)
+    {
+        *(*buf + *n) = ch;
+        (*n)++;
+
+        if (i == sizeChar)
+        {
+            numRealloc = numRealloc + 1;
+            *buf = (char*)realloc(*buf, numRealloc * sizeChar);
+        }
+    }
+
+    *buf = (char*)realloc(*buf, *n);
+    return (ssize_t*) n;
+}
