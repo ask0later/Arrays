@@ -3,29 +3,30 @@
 #include <cstring>
 
 const size_t MAX = 512;
-const size_t SIZE = 85;
+const size_t SIZE = 20;
 
-void PrintData(char* text[]);
+void PrintData(char** text);
 
 int main(int argc, char* argv[])
 {
     char buf [MAX] = {};
-    char* text[SIZE] = {};
+    char** text = (char**)calloc(SIZE, sizeof(char*));
     FILE* fp = fopen(argv[1], "r");
 
     size_t i = 0;
 
     while (fgets (buf, MAX, fp) != NULL)
     {
-        text[i] = (char*)calloc(, sizeof(char));
-        strncpy(text[i], buf, SIZE);
+        size_t sizeBuf = strlen(buf);
+        *(text + i) = (char*)calloc(sizeBuf, sizeof(char));
+        strncpy(*(text + i), buf, sizeBuf);
         i++;
     }
-    PrintData(text);
+    PrintData((char* *)text);
 }
 void PrintData(char** text)
 {
-    for (size_t i = 0; i < MAX; i++)
+    for (size_t i = 0; i < SIZE; i++)
     {
         if (*(text+i) != NULL)
         {
